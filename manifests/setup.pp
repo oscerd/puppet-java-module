@@ -36,12 +36,17 @@ define java::setup (
     $defined_tmpdir = $tmpdir
   }
   
+  package { 'tar':
+      ensure => installed,
+      alias => tar   
+  }
+  
   file { "${defined_tmpdir}${type}-${family}u${update_version}-${os}-${architecture}${extension}":
       ensure => present,
       source => "puppet:///modules/java/${type}-${family}u${update_version}-${os}-${architecture}${extension}" }
 
   exec { 'extract_java': 
-          command => "unzip ${defined_tmpdir}${type}-${family}u${update_version}-${os}-${architecture}${extension}",
+          command => "tar -xzvf ${defined_tmpdir}${type}-${family}u${update_version}-${os}-${architecture}${extension}",
           require => [ File[ "${defined_tmpdir}${type}-${family}u${update_version}-${os}-${architecture}${extension}"], 
-                       Package[unzip] ] }
+                       Package[tar] ] }
   }
