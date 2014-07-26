@@ -8,7 +8,7 @@ define java::setup (
   $tmpdir = undef,
   ) { 
     
-  # Validate parameters
+  # Validate parameters presence 
   if ($type == undef) {
     fail('type parameter must be set')
   }
@@ -29,6 +29,12 @@ define java::setup (
     fail('Operating system parameter must be set')
   }
   
+  $java_home_base = $operatingsystem ? {
+    /(?i:SLES|OpenSuSE)/ => '/usr/lib/java',
+    /(?i:Ubuntu|Debian|Mint|Centos)/ => '/usr/lib/jvm',
+    default => '/usr/lib/jvm',
+  }
+  
   if ($tmpdir == undef){
     notify{'Temp folder not specified, setting default install folder /tmp/':}
     $defined_tmpdir ='/tmp/'
@@ -46,7 +52,21 @@ define java::setup (
       source => "puppet:///modules/java/${type}-${family}u${update_version}-${os}-${architecture}${extension}" }
 
   exec { 'extract_java': 
-          command => "tar -xzvf ${defined_tmpdir}${type}-${family}u${update_version}-${os}-${architecture}${extension}",
+          command => "tar -xzvf ${defined_tmpdir}${type}-${family}u${update_version}-${os}-${architecture}${extension} -C ${defined_tmpdir}",
           require => [ File[ "${defined_tmpdir}${type}-${family}u${update_version}-${os}-${architecture}${extension}"], 
-                       Package[tar] ] }
+                       Package[tar] ], 
+          alias => extract }
+                       
+  file { "$java_home_base":
+      ensure => directory,
+      mode => '755',
+      owner => 'root', 
+      alias => java_home
+  }
+  
+    exec { 'move_java': 
+          command => "mv ${defined_tmpdir}${type}-${family}u${update_version}-${os}-${architecture}/ ${java_home_base}",
+          require => [ File[ java_home ], 
+                       Exec[ extract ] ] }
+  
   }
