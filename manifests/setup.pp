@@ -65,7 +65,7 @@ define java::setup (
   }
   
     exec { 'move_java': 
-          command => "mv ${defined_tmpdir}${type}-${family}u${update_version}-${os}-${architecture}/ ${java_home_base}",
+          command => "mv ${defined_tmpdir}${type}1.${family}.0_${update_version}/ ${java_home_base}",
           require => [ File[ java_home ], 
                        Exec[ extract ] ] }
   
