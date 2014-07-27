@@ -20,7 +20,7 @@ Clone this repository in a java directory in your puppet module directory
 
 ## <a name='Usage'>Usage</a>
 
-If you include the java::setup class the module will take the package from '/java/files' folder, extract his content it and move it 
+If you include the java::setup class the module will take the package from `/java/files` folder, extract his content and move it 
 in a specific directory (based on the OS we are working on). Here is an example:
 
 	java::setup { "java":
