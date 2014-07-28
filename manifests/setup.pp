@@ -58,7 +58,7 @@ define java::setup (
   }
 
   if (($extension != ".tar.gz") and ($extension != ".tar.Z") ) {
-    fail('Extension parameter must ".tar.gz')
+    fail('Extension parameter must be ".tar.gz" or ".tar.Z"')
   }
    
   $java_home_base = $operatingsystem ? {
