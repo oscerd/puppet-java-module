@@ -6,6 +6,7 @@ Puppet Java Module
   1. [Introduction](#Introduction)
   1. [Installation](#Installation)
   1. [Usage](#Usage)
+  1. [Testing](#Testing)
   1. [Contributing](#Contributing)
 
 ## <a name='Introduction'>Introduction</a>
@@ -39,6 +40,13 @@ This should usually be placed in `manifests/site.pp`:
 	Exec {
 	  path => "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
 	}
+
+## <a name='Testing'>Testing</a>
+
+The Puppet java module has been tested on the following Operating Systems: 
+
+1. CentOS 6.5 x64
+1. Debian 7.5 x64
 
 ## <a name='Contributing'>Contributing</a>
 
