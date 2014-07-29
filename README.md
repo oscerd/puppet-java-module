@@ -47,6 +47,7 @@ The Puppet java module has been tested on the following Operating Systems:
 
 1. CentOS 6.5 x64
 1. Debian 7.5 x64
+1. Fedora 20.0 x86_64
 1. Ubuntu 14.04 x64
 
 ## <a name='Contributing'>Contributing</a>
