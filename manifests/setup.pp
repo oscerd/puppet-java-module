@@ -60,12 +60,32 @@ define java::setup (
   if (($extension != ".tar.gz") and ($extension != ".tar.Z") ) {
     fail('Extension parameter must be ".tar.gz" or ".tar.Z"')
   }
-   
-  $java_home_base = $operatingsystem ? {
-    /(?i:SLES|OpenSuSE)/ => '/usr/lib/java',
-    /(?i:Ubuntu|Debian|Mint|Centos)/ => '/usr/lib/jvm',
-    /(?i:Solaris)/ => '/developer/java',   
-    default => '/usr/lib/jvm',
+  
+  case $operatingsystem {
+    Ubuntu: { 
+      $java_home_base = '/usr/lib/jvm'
+      $java_path = '/bin/java'
+      $javac_path = '/bin/javac'
+      $javaws_path = '/bin/javaws'
+    }
+    Debian: { 
+      $java_home_base = '/usr/lib/jvm'
+      $java_path = '/bin/java'
+      $javac_path = '/bin/javac'
+      $javaws_path = '/bin/javaws'
+    }
+    Centos: { 
+      $java_home_base = '/usr/lib/jvm'
+      $java_path = '/bin/java'
+      $javac_path = '/bin/javac'
+      $javaws_path = '/bin/javaws'
+    }
+    Fedora: { 
+      $java_home_base = '/usr/lib/jvm'
+      $java_path = '/usr/bin/java'
+      $javac_path = '/bin/javac'
+      $javaws_path = '/bin/javaws'
+    }
   }
   
   package { 'tar':
@@ -96,7 +116,7 @@ define java::setup (
   exec { 'install_java':
           require => Exec ['move_java'],
           logoutput => true,
-          command => "update-alternatives --install /bin/java java ${java_home_base}/${type}1.${family}.0_${update_version}/bin/java 1"  }
+          command => "update-alternatives --install ${java_path} java ${java_home_base}/${type}1.${family}.0_${update_version}/bin/java 1"  }
 
   exec { 'set_java':
           require => Exec ['install_java'],
@@ -106,7 +126,7 @@ define java::setup (
   exec { 'install_javac':
           require => Exec ['move_java'],
           logoutput => true,
-          command => "update-alternatives --install /bin/javac javac ${java_home_base}/${type}1.${family}.0_${update_version}/bin/javac 1"  }
+          command => "update-alternatives --install ${javac_path} javac ${java_home_base}/${type}1.${family}.0_${update_version}/bin/javac 1"  }
 
   exec { 'set_javac':
           require => Exec ['install_javac'],
@@ -116,7 +136,7 @@ define java::setup (
   exec { 'install_javaws':
           require => Exec ['move_java'],
           logoutput => true,
-          command => "update-alternatives --install /bin/javaws javaws ${java_home_base}/${type}1.${family}.0_${update_version}/bin/javaws 1"  }
+          command => "update-alternatives --install ${javaws_path} javaws ${java_home_base}/${type}1.${family}.0_${update_version}/bin/javaws 1"  }
 
   exec { 'set_javaws':
           require => Exec ['install_javaws'],
