@@ -57,7 +57,7 @@ define java::setup (
     fail('Operating system parameter must "linux" or "solaris"')
   }
 
-  if (($extension != ".tar.gz") and ($extension != ".tar.Z") ) {
+  if (($extension != ".tar.gz")) {
     fail('Extension parameter must be ".tar.gz" or ".tar.Z"')
   }
   
