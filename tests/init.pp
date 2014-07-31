@@ -12,5 +12,7 @@ java::setup { "java":
   architecture => "x64",
   os => "linux",
   extension => ".tar.gz",
-  tmpdir => ""
+  tmpdir => "",
+  alternatives => "",
+  export => ""
   }

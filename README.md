@@ -31,7 +31,9 @@ in a specific directory (based on the OS we are working on). Here is an example:
 	  architecture => "x64",
 	  os => "linux",
 	  extension => ".tar.gz",
-	  tmpdir => ""
+	  tmpdir => "",
+          alternatives => "",
+          export => ""
 	  }
 
 It's important to define a global search path for the `exec` resource to make module work. 

@@ -6,6 +6,8 @@ define java::setup (
   $os = undef,
   $extension = undef,
   $tmpdir = undef,
+  $alternatives = undef,
+  $export = undef
   ) { 
     
   # Validate parameters presence 
@@ -38,6 +40,18 @@ define java::setup (
     $defined_tmpdir ='/tmp/'
   } else {
     $defined_tmpdir = $tmpdir
+  }
+  
+  if($alternatives == undef){
+    $makealternatives = "no"
+  } else {
+    $makealternatives = "yes"
+  }
+  
+  if($export == undef){
+    $makeexport = "no"
+  } else {
+    $makeexport = "yes"
   }
   
   # Validate parameters  
@@ -86,11 +100,14 @@ define java::setup (
       $javac_path = '/bin/javac'
       $javaws_path = '/bin/javaws'
     }
+    default: {
+      fail('Operating System we are running on is not supported at this moment')
+    }
   }
   
-  package { 'tar':
-			      ensure => installed,
-			      alias => tar   }
+  package { 'tar': 
+    ensure => installed, 
+    alias => tar   }
   
   file { "${defined_tmpdir}${type}-${family}u${update_version}-${os}-${architecture}${extension}":
 		      ensure => present,
@@ -111,8 +128,10 @@ define java::setup (
   exec { 'move_java': 
           command => "mv ${defined_tmpdir}${type}1.${family}.0_${update_version}/ ${java_home_base}",
           require => [ File[ java_home ], 
-                       Exec[ extract ] ] }
-                       
+                       Exec[ extract ] ],
+                    unless => "ls ${java_home_base}/${type}1.${family}.0_${update_version}/" }
+                    
+  if ($makealternatives == "yes"){                  
   exec { 'install_java':
           require => Exec ['move_java'],
           logoutput => true,
@@ -142,8 +161,11 @@ define java::setup (
           require => Exec ['install_javaws'],
           logoutput => true,
           command => "update-alternatives --set javaws ${java_home_base}/${type}1.${family}.0_${update_version}/bin/javaws"  } 
-          
-  file { "/etc/profile.d/java.sh":
-          content => "export JAVA_HOME=${java_home_base}/${type}1.${family}.0_${update_version}/
-                      export PATH=\$PATH:\$JAVA_HOME/bin"  }
   }
+  
+  if ($makeexport == "yes"){               
+	  file { "/etc/profile.d/java.sh":
+	          content => "export JAVA_HOME=${java_home_base}/${type}1.${family}.0_${update_version}/
+	                      export PATH=\$PATH:\$JAVA_HOME/bin"  }
+  }
+}
