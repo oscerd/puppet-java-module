@@ -141,26 +141,28 @@ define java::setup (
           require => Exec ['install_java'],
           logoutput => true,
           command => "update-alternatives --set java ${java_home_base}/${type}1.${family}.0_${update_version}/bin/java"  } 
-          
-  exec { 'install_javac':
-          require => Exec ['move_java'],
-          logoutput => true,
-          command => "update-alternatives --install ${javac_path} javac ${java_home_base}/${type}1.${family}.0_${update_version}/bin/javac 1"  }
-
-  exec { 'set_javac':
-          require => Exec ['install_javac'],
-          logoutput => true,
-          command => "update-alternatives --set javac ${java_home_base}/${type}1.${family}.0_${update_version}/bin/javac"  } 
-          
-  exec { 'install_javaws':
-          require => Exec ['move_java'],
-          logoutput => true,
-          command => "update-alternatives --install ${javaws_path} javaws ${java_home_base}/${type}1.${family}.0_${update_version}/bin/javaws 1"  }
-
-  exec { 'set_javaws':
-          require => Exec ['install_javaws'],
-          logoutput => true,
-          command => "update-alternatives --set javaws ${java_home_base}/${type}1.${family}.0_${update_version}/bin/javaws"  } 
+  
+  if ($type == "jdk") {        
+	  exec { 'install_javac':
+	          require => Exec ['move_java'],
+	          logoutput => true,
+	          command => "update-alternatives --install ${javac_path} javac ${java_home_base}/${type}1.${family}.0_${update_version}/bin/javac 1"  }
+	
+	  exec { 'set_javac':
+	          require => Exec ['install_javac'],
+	          logoutput => true,
+	          command => "update-alternatives --set javac ${java_home_base}/${type}1.${family}.0_${update_version}/bin/javac"  } 
+	          
+	  exec { 'install_javaws':
+	          require => Exec ['move_java'],
+	          logoutput => true,
+	          command => "update-alternatives --install ${javaws_path} javaws ${java_home_base}/${type}1.${family}.0_${update_version}/bin/javaws 1"  }
+	
+	  exec { 'set_javaws':
+	          require => Exec ['install_javaws'],
+	          logoutput => true,
+	          command => "update-alternatives --set javaws ${java_home_base}/${type}1.${family}.0_${update_version}/bin/javaws"  } 
+    }
   }
   
   if ($makeexport == "yes"){               
