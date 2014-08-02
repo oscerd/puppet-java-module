@@ -105,10 +105,6 @@ define java::setup (
     }
   }
   
-  package { 'tar': 
-    ensure => installed, 
-    alias => tar   }
-  
   file { "${defined_tmpdir}${type}-${family}u${update_version}-${os}-${architecture}${extension}":
 		      ensure => present,
 		      source => "puppet:///modules/java/${type}-${family}u${update_version}-${os}-${architecture}${extension}" }
@@ -116,7 +112,7 @@ define java::setup (
   exec { 'extract_java': 
           command => "tar -xzvf ${defined_tmpdir}${type}-${family}u${update_version}-${os}-${architecture}${extension} -C ${defined_tmpdir}",
           require => [ File[ "${defined_tmpdir}${type}-${family}u${update_version}-${os}-${architecture}${extension}"], 
-                       Package[tar] ], 
+                       Package['tar'] ], 
           alias => extract }
                        
   file { "$java_home_base":
