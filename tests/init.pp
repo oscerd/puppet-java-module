@@ -5,6 +5,14 @@
 Exec {
   path => ["/bin/", "/sbin/", "/usr/bin/", "/usr/sbin/"] }
 
+package { 'tar':
+      ensure => installed
+  }
+
+package { 'unzip':
+      ensure => installed
+  }
+
 java::setup { "java":
   type => "jdk",
   family => "7",

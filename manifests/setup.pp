@@ -111,8 +111,9 @@ define java::setup (
 
   exec { 'extract_java': 
           command => "tar -xzvf ${defined_tmpdir}${type}-${family}u${update_version}-${os}-${architecture}${extension} -C ${defined_tmpdir}",
-          require => [ File[ "${defined_tmpdir}${type}-${family}u${update_version}-${os}-${architecture}${extension}"], 
-                       Package['tar'] ], 
+          require => [ File[ "${defined_tmpdir}${type}-${family}u${update_version}-${os}-${architecture}${extension}"],
+                       Package['tar']
+          ], 
           alias => extract }
                        
   file { "$java_home_base":
@@ -125,7 +126,7 @@ define java::setup (
           command => "mv ${defined_tmpdir}${type}1.${family}.0_${update_version}/ ${java_home_base}",
           require => [ File[ java_home ], 
                        Exec[ extract ] ],
-                    unless => "ls ${java_home_base}/${type}1.${family}.0_${update_version}/" }
+          unless => "ls ${java_home_base}/${type}1.${family}.0_${update_version}/" }
                     
   if ($makealternatives == "yes"){                  
   exec { 'install_java':
@@ -166,4 +167,9 @@ define java::setup (
 	          content => "export JAVA_HOME=${java_home_base}/${type}1.${family}.0_${update_version}/
 	                      export PATH=\$PATH:\$JAVA_HOME/bin"  }
   }
+  
+  exec { 'clean_java': 
+          command => "rm -rf ${defined_tmpdir}${type}-${family}u${update_version}-${os}-${architecture}${extension}",
+          require => Exec['move_java'],
+          logoutput => "false" }
 }
