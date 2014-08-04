@@ -100,6 +100,12 @@ define java::setup (
       $javac_path = '/bin/javac'
       $javaws_path = '/bin/javaws'
     }
+    Redhat: { 
+      $java_home_base = '/usr/lib/jvm'
+      $java_path = '/usr/bin/java'
+      $javac_path = '/bin/javac'
+      $javaws_path = '/bin/javaws'
+    }
     default: {
       fail('Operating System we are running on is not supported at this moment')
     }
