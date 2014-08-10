@@ -85,6 +85,11 @@ Contributing
 
 Feel free to contribute by testing, opening issues and adding/changing code
 
+Puppet Forge
+-----------------
+
+The Puppet Java Module has been published on Puppet Forge: __https://forge.puppetlabs.com/oscerd/java__
+
 License
 -----------------
 
