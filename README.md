@@ -30,8 +30,8 @@ in a specific directory (based on the OS we are working on). Here is an example:
 	  os => "linux",
 	  extension => ".tar.gz",
 	  tmpdir => "",
-          alternatives => "",
-          export => ""
+	  alternatives => "",
+	  export => ""
 	  }
 ```
 
