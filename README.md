@@ -53,6 +53,23 @@ are installed on the target system:
 	}
 ```
 
+Parameters
+-----------------
+
+The Puppet Java module use the following parameters in his setup
+
+*  __Type__: Possible values of family are _jdk_ or _jre_ 
+*  __Family__: Possible values of Java version _6_, _7_, _8_ 
+*  __Update Version__: The update version
+*  __Architecture__: The architecture related to the package. Possible values of architecture are _i586_, _x64_, _sparc_, _sparcv9_ (the last two need to be tested)
+*  __Operating System__: The operating system related to the package, at this moment we support _linux_ only
+*  __Extension__: The file extension, at this moment is _.tar.gz_
+*  __Install Directory__: The directory where the Apache Tomcat will be installed (default is `/opt/`)
+*  __Temp Directory__: The directory where the java package will be extracted (default is `/tmp/`)
+*  __Alternatives__: Possible values are _yes_, _no_ and _undef_ (default is _no_). If alternatives have value _yes_, then the module will make update alternatives to set the correct path to 
+java, javac and javaws (in case of type _jdk_) or only java (in case of _jre_)
+*  __Export__: Possible values are _yes_, _no_ and _undef_ (default is _no_). If export is set on _yes_, then module will export new JAVA_HOME environment variable.
+
 Testing
 -----------------
 

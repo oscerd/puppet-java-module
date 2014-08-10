@@ -1,3 +1,4 @@
+# java::setup defines the setup stage of Java installation
 define java::setup (
   $type = undef,
   $family = undef,
