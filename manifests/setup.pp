@@ -46,13 +46,13 @@ define java::setup (
   if($alternatives == undef){
     $makealternatives = "no"
   } else {
-    $makealternatives = "yes"
+    $makealternatives = $alternatives
   }
   
   if($export == undef){
     $makeexport = "no"
   } else {
-    $makeexport = "yes"
+    $makeexport = $export
   }
   
   # Validate parameters  
