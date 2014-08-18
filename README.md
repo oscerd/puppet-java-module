@@ -12,7 +12,7 @@ Installation
 Clone this repository in a java directory in your puppet module directory
 
 ```shell
-	git clone https://github.com/ancosen/puppet-java-module java
+	git clone https://github.com/oscerd/puppet-java-module java
 ```
 
 Usage
