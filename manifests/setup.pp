@@ -121,6 +121,7 @@ define java::setup (
           require => [ File[ "${defined_tmpdir}${type}-${family}u${update_version}-${os}-${architecture}${extension}"],
                        Package['tar']
           ], 
+          unless => "ls ${java_home_base}/${type}1.${family}.0_${update_version}/",
           alias => extract }
                        
   file { "$java_home_base":
