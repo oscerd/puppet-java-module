@@ -1,7 +1,7 @@
 {
 "name": "oscerd-java",
 "description": "The Java module installs Oracle JDK or JRE on your node.\nThe module make possible to set the Java family, the Java update version, the architecture, the operating system, \nthe temporary folder where the package will be extracted and many other features. Take a look at the documentation to know more.",
-"version": "1.0.1",
+"version": "1.0.2",
 "author": "Oscerd",
 "source": "https://github.com/oscerd/puppet-java-module",
 "project_page": "https://github.com/oscerd/puppet-java-module",
