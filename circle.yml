@@ -1,0 +1,18 @@
+machine:
+  services:
+    - docker
+
+test:
+  override:
+    - docker run --rm debian
+
+test:
+  post:
+    - bundle install
+    - bundle exec rake spec
+    - bundle exec puppet module build
+    - mkdir dist && cp pkg/*.tar.gz dist/
+
+general:
+  artifacts:
+    - "dist"
