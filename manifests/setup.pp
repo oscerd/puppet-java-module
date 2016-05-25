@@ -76,42 +76,39 @@ define java::setup (
     fail('Extension parameter must be ".tar.gz"')
   }
   
-  case $operatingsystem {
-    Ubuntu: { 
+  case $::osfamily {
+    'debian': { 
       $java_home_base = '/usr/lib/jvm'
       $java_path = '/bin/java'
       $javac_path = '/bin/javac'
       $javaws_path = '/bin/javaws'
     }
-    Debian: { 
+    'redhat': { 
       $java_home_base = '/usr/lib/jvm'
-      $java_path = '/bin/java'
-      $javac_path = '/bin/javac'
-      $javaws_path = '/bin/javaws'
-    }
-    Centos: { 
-      $java_home_base = '/usr/lib/jvm'
-      $java_path = '/bin/java'
-      $javac_path = '/bin/javac'
-      $javaws_path = '/bin/javaws'
-    }
-    Fedora: { 
-      $java_home_base = '/usr/lib/jvm'
-      $java_path = '/usr/bin/java'
-      $javac_path = '/bin/javac'
-      $javaws_path = '/bin/javaws'
-    }
-    Redhat: { 
-      $java_home_base = '/usr/lib/jvm'
-      $java_path = '/usr/bin/java'
-      $javac_path = '/bin/javac'
-      $javaws_path = '/bin/javaws'
+
+      # If the system already has alternatives path set, use it.
+      # else use a default.
+      if $java_alternatives_path != undef {
+        $java_path = $java_alternatives_path
+      } else {
+        $java_path = '/usr/bin/java'
+      }
+      if $javac_alternatives_path != undef {
+        $javac_path = $javac_alternatives_path
+      } else {
+        $javac_path = '/bin/javac'
+      }
+      if $javaws_alternatives_path != undef {
+        $javaws_path = $javaws_alternatives_path
+      } else {
+        $java_pathws = '/bin/javaws'
+      }
     }
     default: {
       fail('Operating System we are running on is not supported at this moment')
     }
   }
-  
+
   file { "${defined_tmpdir}${type}-${family}u${update_version}-${os}-${architecture}${extension}":
 		      ensure => present,
 		      source => "puppet:///modules/java/${type}-${family}u${update_version}-${os}-${architecture}${extension}" }
@@ -173,7 +170,8 @@ define java::setup (
   if ($makeexport == "yes"){               
 	  file { "/etc/profile.d/java.sh":
 	          content => "export JAVA_HOME=${java_home_base}/${type}1.${family}.0_${update_version}/
-	                      export PATH=\$PATH:\$JAVA_HOME/bin"  }
+	                      export PATH=\$PATH:\$JAVA_HOME/bin
+                             "  }
   }
   
   exec { 'clean_java': 
