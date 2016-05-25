@@ -8,6 +8,7 @@ test:
 
 test:
   post:
+    - gem install bundler
     - bundle install
     - bundle exec rake spec
     - bundle exec puppet module build
