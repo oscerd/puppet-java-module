@@ -6,6 +6,8 @@ Facter.add('javac_alternatives_path') do
       file = File.open('/var/lib/alternatives/javac', 'r')
       2.times{ file.gets }
       javac_alternatives_path = $_.strip
+    else
+      javac_alternatives_path = ""
     end
   end
 end
