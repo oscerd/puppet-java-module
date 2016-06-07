@@ -6,6 +6,8 @@ Facter.add('javaws_alternatives_path') do
       file = File.open('/var/lib/alternatives/javaws', 'r')
       2.times{ file.gets }
       javaws_alternatives_path = $_.strip
+    else
+      javaws_alternatives_path = ""
     end
   end
 end
